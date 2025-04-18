@@ -17,6 +17,7 @@ spec:
     metadata:
       labels:
         app: swapi
+        version: v1
     spec:
       containers:
       - name: swapi
