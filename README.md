@@ -2,8 +2,15 @@
 
 ## About Kubernetes
 
-We use kubernetes as 
+We use kubernetes as the container orchestration platform for deploying and managing our applications. Kubernetes is an open-source platform that automates the deployment, scaling, and management of containerized applications. It provides a robust set of features for managing containers, including load balancing, service discovery, and self-healing.
 
+## Prerequisites
+
+To run the code in this repository, you will need to have the following software installed on your system:
+
+- Docker
+- kubectl
+- Minikube
 
 ## Starting Minikube
 
