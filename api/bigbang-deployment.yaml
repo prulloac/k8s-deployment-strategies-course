@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: swapi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swapi-deployment
+  namespace: swapi
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: swapi
+  template:
+    metadata:
+      labels:
+        app: swapi
+    spec:
+      containers:
+      - name: swapi
+        image: codegazers/swapi:slim
+        ports:
+        - containerPort: 8000
+  strategy:
+    type: Recreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: swapi-service
+  namespace: swapi
+spec:
+  selector:
+    app: swapi
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer

@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: swapi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swapi-deployment
+  namespace: swapi
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: swapi
+  template:
+    metadata:
+      labels:
+        app: swapi
+    spec:
+      containers:
+      - name: swapi
+        image: codegazers/swapi:slim
+        ports:
+        - containerPort: 8000
+        readinessProbe:
+          httpGet:
+            path: /api/people/1
+            port: 8000
+            httpHeaders:
+              - name: Content-Type
+                value: application/json
+          initialDelaySeconds: 5
+          periodSeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: swapi-service
+  namespace: swapi
+spec:
+  selector:
+    app: swapi
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer
