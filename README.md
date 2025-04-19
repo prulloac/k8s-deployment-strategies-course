@@ -38,6 +38,24 @@ minikube dashboard
 
 This will open the kubernetes dashboard in your default web browser. You can use the dashboard to manage your kubernetes cluster and view the status of your pods, services, and other resources.
 
+## Building the Application
+
+To build the application, there is a convenience script provided in the `scripts` directory. This script will build the docker image for the application and tag it with the proper version.
+
+```bash
+# Build the docker image for the application
+./scripts/build-app.sh
+```
+
+This will build the docker image for the application and tag it with the proper version. You can check the status of the docker image using the following command:
+
+```bash
+# Check the status of the docker image
+docker images
+```
+
+Also, if minikube cluster is running, this will automatically push the image to the local minikube docker registry.
+
 ## Deploying the Application
 
 To deploy the application to the local kubernetes cluster, we can use the `kubectl` command line tool. The deployment files are located in the `api` directory. The deployment files are in the `yaml` format and can be applied to the kubernetes cluster using the following command:

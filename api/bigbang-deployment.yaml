@@ -1,27 +1,27 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: swapi
+  name: sample
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: swapi-deployment
-  namespace: swapi
+  name: sample-deployment
+  namespace: sample
 spec:
-  replicas: 5
+  replicas: 10
   selector:
     matchLabels:
-      app: swapi
+      app: sample
   template:
     metadata:
       labels:
-        app: swapi
+        app: sample
         version: v1
     spec:
       containers:
-      - name: swapi
-        image: codegazers/swapi:slim
+      - name: sample
+        image: myapp:v1
         ports:
         - containerPort: 8000
   strategy:
@@ -30,11 +30,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: swapi-service
-  namespace: swapi
+  name: sample-service
+  namespace: sample
 spec:
   selector:
-    app: swapi
+    app: sample
   ports:
   - protocol: TCP
     port: 80
