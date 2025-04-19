@@ -28,7 +28,10 @@ func main() {
 		// Write the JSON response
 		w.WriteHeader(http.StatusOK)
 		version := os.Getenv("VERSION")
-		fmt.Fprint(w, `{"status":"healthy",\n"version":"`+version+`"}`)
+		fmt.Fprint(w, `{
+	"status":"healthy",
+	"version":"`+version+`"
+}`)
 	})
 
 	// Start the server on port 8000
