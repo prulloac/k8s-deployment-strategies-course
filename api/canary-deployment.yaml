@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stable-deployment
+  namespace: sample
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: stable-sample
+  template:
+    metadata:
+      labels:
+        app: stable-sample
+        version: v1-blue
+        environment: blue
+    spec:
+      containers:
+      - name: stable-sample
+        image: myapp:v1
+        ports:
+        - containerPort: 8000
+  strategy:
+    type: Recreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-stable-service
+  namespace: sample
+spec:
+  selector:
+    app: stable-sample
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: canary-deployment
+  namespace: sample
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: canary-sample
+  template:
+    metadata:
+      labels:
+        app: canary-sample
+        version: v2-canary
+        environment: canary
+    spec:
+      containers:
+      - name: canary-sample
+        image: myapp:v2
+        ports:
+        - containerPort: 8000
+  strategy:
+    type: RollingUpdate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-canary-service
+  namespace: sample
+spec:
+  selector:
+    app: canary-sample
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer

@@ -15,8 +15,12 @@ fi
 if ! minikube status | grep -q "Running"
 then
     echo "Starting Minikube..."
-    minikube start
+    minikube start --nodes 2
 fi
+
+
+echo "Waiting for Minikube to be fully up..."
+minikube status --wait
 
 # Connect to the Minikube cluster
 echo "Connecting to Minikube cluster..."

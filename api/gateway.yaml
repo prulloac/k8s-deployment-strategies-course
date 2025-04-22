@@ -1,0 +1,36 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: sample-gateway
+  namespace: sample
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: sample-route
+  namespace: sample
+spec:
+  parentRefs:
+  - name: sample-gateway
+  hostnames:
+  - "sample.usach.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: sample-stable-service
+      namespace: sample
+      port: 80
+      weight: 60
+    - name: sample-canary-service
+      namespace: sample
+      port: 80
+      weight: 40

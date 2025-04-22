@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-deployment
+  namespace: sample
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: sample
+  template:
+    metadata:
+      labels:
+        app: blue-sample
+        version: v1-blue
+        environment: blue
+    spec:
+      containers:
+      - name: sample
+        image: myapp:v1
+        ports:
+        - containerPort: 8000
+  strategy:
+    type: Recreate
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-deployment
+  namespace: sample
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: sample
+  template:
+    metadata:
+      labels:
+        app: green-sample
+        version: v2-green
+        environment: green
+    spec:
+      containers:
+      - name: sample
+        image: myapp:v2
+        ports:
+        - containerPort: 8000
+  strategy:
+    type: Recreate
+

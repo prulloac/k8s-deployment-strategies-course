@@ -2,8 +2,8 @@
 
 # This script builds the app from the source code.
 
-docker build -t myapp:v1 --build-arg TEXT="Custom Landing Text V1" --build-arg VERSION="v1" ../api/app
-docker build -t myapp:v2 --build-arg TEXT="Custom Landing Text V2" --build-arg VERSION="v2" ../api/app
+docker build -t myapp:v1 --build-arg TEXT="Custom Landing Text V1" --build-arg VERSION="v1" api/app
+docker build -t myapp:v2 --build-arg TEXT="Custom Landing Text V2" --build-arg VERSION="v2" api/app
 
 # Check if Minikube is running
 if ! minikube status | grep -q "Running"
