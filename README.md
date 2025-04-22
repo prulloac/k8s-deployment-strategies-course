@@ -110,7 +110,7 @@ To deploy the rolling update deployment, we can use the `kubectl` command line t
 
 ```bash
 # Deploy the application to the local kubernetes cluster
-kubectl apply -f api/rolling-update-deployment.yaml
+kubectl apply -f api/rolling-deployment.yaml
 ```
 
 Since this deployment uses the same deployment name as the big bang deployment, the rolling update deployment will replace the big bang deployment. We can check the status of the deployment using Minikube dashboard or using the following command:
@@ -133,8 +133,7 @@ For this deployment, we will delete the previous deployments and create a new de
 
 ```bash
 # Delete the previous deployments
-kubectl delete -f api/bigbang-deployment.yaml
-kubectl delete -f api/rolling-update-deployment.yaml
+kubectl delete -f api/rolling-deployment.yaml
 
 # Delete the ingress service
 kubectl delete -f api/basic-ingress.yaml
@@ -197,6 +196,13 @@ spec:
   type: LoadBalancer
 ```
 
+After updating the yaml file, we can apply the changes using the following command:
+
+```bash
+# Apply the changes to the ingress service
+kybectl replace -f api/basic-ingress.yaml
+```
+
 This will enable the application to be accessed using the same service as the big bang deployment. If we use the health check endpoint, we can see that the application is running on the green deployment.
 
 ```bash
@@ -210,8 +216,6 @@ For this last deployment, we will delete the previous deployments and create a n
 
 ```bash
 # Delete the previous deployments
-kubectl delete -f api/bigbang-deployment.yaml
-kubectl delete -f api/rolling-update-deployment.yaml
 kubectl delete -f api/blue-green-deployment.yaml
 
 # Delete the ingress service
@@ -267,7 +271,12 @@ For testing the canary deployment, we can use the following command:
 curl --resolve sample.usach.com:80:127.0.0.1 -X GET -H "Content-Type: application/json" http://sample.usach.com:80/health
 ```
 
-The canary deployment will route 20% of the traffic to the canary deployment and 80% of the traffic to the stable deployment. If we want to change the weights, we can modify the `gateway.yaml` file to change the weights of the canary deployment. 
+The canary deployment will route 20% of the traffic to the canary deployment and 80% of the traffic to the stable deployment. If we want to change the weights, we can modify the `gateway.yaml` file to change the weights of the canary deployment. Remember that the weights are defined in the `backendRefs` section of the `gateway.yaml` file, and that after modifying the file, we need to apply the changes using the following command:
+
+```bash
+# Apply the changes to the gateway service
+kubectl replace -f api/gateway.yaml
+```
 
 After applying the changes, we can perform further requests to the application and see which deployment was used to serve the request.
 

@@ -4,22 +4,25 @@ metadata:
   name: blue-deployment
   namespace: sample
 spec:
-  replicas: 10
+  replicas: 5
   selector:
     matchLabels:
-      app: sample
+      app: blue-sample
   template:
     metadata:
       labels:
         app: blue-sample
         version: v1-blue
-        environment: blue
+        deployment: blue
     spec:
       containers:
       - name: sample
         image: myapp:v1
         ports:
         - containerPort: 8000
+        env:
+        - name: deployment
+          value: blue
   strategy:
     type: Recreate
 ---
@@ -29,22 +32,25 @@ metadata:
   name: green-deployment
   namespace: sample
 spec:
-  replicas: 10
+  replicas: 5
   selector:
     matchLabels:
-      app: sample
+      app: green-sample
   template:
     metadata:
       labels:
         app: green-sample
         version: v2-green
-        environment: green
+        deployment: green
     spec:
       containers:
       - name: sample
         image: myapp:v2
         ports:
         - containerPort: 8000
+        env:
+        - name: deployment
+          value: green
   strategy:
     type: Recreate
 

@@ -12,14 +12,16 @@ spec:
     metadata:
       labels:
         app: stable-sample
-        version: v1-blue
-        environment: blue
+        version: v1
     spec:
       containers:
       - name: stable-sample
         image: myapp:v1
         ports:
         - containerPort: 8000
+        env:
+        - name: deployment
+          value: stable
   strategy:
     type: Recreate
 ---
@@ -51,14 +53,17 @@ spec:
     metadata:
       labels:
         app: canary-sample
-        version: v2-canary
-        environment: canary
+        version: v2
+        deployment: canary
     spec:
       containers:
       - name: canary-sample
         image: myapp:v2
         ports:
         - containerPort: 8000
+        env:
+        - name: deployment
+          value: canary
   strategy:
     type: RollingUpdate
 ---

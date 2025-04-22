@@ -28,9 +28,14 @@ func main() {
 		// Write the JSON response
 		w.WriteHeader(http.StatusOK)
 		version := os.Getenv("VERSION")
+		deployment := os.Getenv("DEPLOYMENT")
+		if deployment == "" {
+			deployment = "unknown"
+		}
 		fmt.Fprint(w, `{
 	"status":"healthy",
-	"version":"`+version+`"
+	"version":"`+version+`",
+	"deployment":"`+deployment+`"
 }`)
 	})
 

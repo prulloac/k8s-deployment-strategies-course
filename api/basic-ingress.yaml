@@ -5,7 +5,7 @@ metadata:
   namespace: sample
 spec:
   selector:
-    app: sample
+    app: green-sample
   ports:
   - protocol: TCP
     port: 80

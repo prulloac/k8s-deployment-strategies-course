@@ -29,8 +29,8 @@ spec:
     - name: sample-stable-service
       namespace: sample
       port: 80
-      weight: 60
+      weight: 80
     - name: sample-canary-service
       namespace: sample
       port: 80
-      weight: 40
+      weight: 20
